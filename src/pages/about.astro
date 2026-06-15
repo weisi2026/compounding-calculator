@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Compounding — Free Compound Interest Calculator" description="Compounding is a free, open-source compound interest calculator. Learn how compound interest works and why it matters for your investments.">
+
+  <article class="prose prose-lg max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">About Compounding</h1>
+    
+    <p class="text-lg text-gray-600 mb-6">
+      Compounding is a <strong>free, open-source</strong> compound interest calculator designed to help you understand how your investments grow over time.
+    </p>
+
+    <h2 class="text-2xl font-semibold mt-8 mb-3">What is Compound Interest?</h2>
+    <p>
+      Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Albert Einstein reportedly called it the <strong>"eighth wonder of the world"</strong> — because he who understands it, earns it; he who doesn't, pays it.
+    </p>
+    <p class="mt-4">
+      Unlike simple interest (which only earns on your original investment), compound interest lets your <em>interest earn interest</em>. Over time, this creates an exponential growth curve that can dramatically increase your wealth.
+    </p>
+
+    <h2 class="text-2xl font-semibold mt-8 mb-3">The Formula</h2>
+    <div class="bg-gray-100 rounded-lg p-4 my-4 font-mono text-center text-lg">
+      FV = P(1 + r/n)<sup>nt</sup> + PMT × [((1 + r/n)<sup>nt</sup> - 1) / (r/n)]
+    </div>
+    <p class="text-sm text-gray-500">
+      Where: P = principal, r = annual rate, n = compounding periods/year, t = years, PMT = periodic contribution
+    </p>
+
+    <h2 class="text-2xl font-semibold mt-8 mb-3">Why Inflation Matters</h2>
+    <p>
+      A dollar today buys more than a dollar in 10 years. Our calculator shows both <strong>nominal</strong> values (what your account statement will show) and <strong>inflation-adjusted</strong> values (what your money can actually buy). This gives you a realistic picture of your future purchasing power.
+    </p>
+
+    <h2 class="text-2xl font-semibold mt-8 mb-3">Compounding Frequency</h2>
+    <p>
+      The more frequently interest compounds, the more you earn:
+    </p>
+    <ul class="list-disc list-inside space-y-1 mt-2">
+      <li><strong>Monthly</strong> — 12 times per year (best for savings accounts)</li>
+      <li><strong>Quarterly</strong> — 4 times per year (common for bonds)</li>
+      <li><strong>Annually</strong> — once per year (simplest model)</li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold mt-8 mb-3">Quick Example</h2>
+    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-4">
+      <p>Invest <strong>$10,000</strong> at <strong>7% annual return</strong> for <strong>30 years</strong>:</p>
+      <ul class="mt-2 space-y-1">
+        <li>✅ Without contributions: grows to <strong>~$76,123</strong></li>
+        <li>✅ Add $500/month: grows to <strong>~$636,438</strong></li>
+        <li>⚠️ After 3% inflation: worth ~$262,485 in today's dollars</li>
+      </ul>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">
+      This shows why starting early and contributing regularly matters so much!
+    </p>
+
+    <div class="mt-12 text-center">
+      <a href="/" class="inline-block px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
+        📊 Try the Calculator
+      </a>
+    </div>
+  </article>
+
+</BaseLayout>

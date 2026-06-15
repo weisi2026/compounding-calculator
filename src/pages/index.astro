@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Compound Interest Calculator — Compounding" description="Free compound interest calculator. See how your investments grow over time with monthly contributions, inflation adjustment, and visual charts.">
+  
+  <!-- Hero -->
+  <section class="text-center mb-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+      Compound Interest Calculator
+    </h1>
+    <p class="text-gray-600">See how your money grows over time with the power of compounding.</p>
+  </section>
+
+  <!-- Ad Banner Top -->
+  <div class="bg-gray-100 rounded-lg p-4 mb-8 text-center text-gray-400 text-sm border border-dashed border-gray-300">
+    Advertisement
+  </div>
+
+  <!-- Calculator Form -->
+  <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+    <form id="calcForm" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Principal -->
+        <div>
+          <label for="principal" class="block text-sm font-medium text-gray-700 mb-1">
+            Initial Investment ($)
+          </label>
+          <input type="number" id="principal" name="principal" value="10000" min="0" step="100"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+        </div>
+
+        <!-- Monthly Contribution -->
+        <div>
+          <label for="monthlyContribution" class="block text-sm font-medium text-gray-700 mb-1">
+            Monthly Contribution ($)
+          </label>
+          <input type="number" id="monthlyContribution" name="monthlyContribution" value="500" min="0" step="50"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+        </div>
+
+        <!-- Annual Rate -->
+        <div>
+          <label for="annualRate" class="block text-sm font-medium text-gray-700 mb-1">
+            Annual Interest Rate (%)
+          </label>
+          <input type="number" id="annualRate" name="annualRate" value="7" min="0" max="50" step="0.1"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+        </div>
+
+        <!-- Years -->
+        <div>
+          <label for="years" class="block text-sm font-medium text-gray-700 mb-1">
+            Investment Period (Years)
+          </label>
+          <input type="number" id="years" name="years" value="10" min="1" max="50" step="1"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+        </div>
+
+        <!-- Inflation Rate -->
+        <div>
+          <label for="inflationRate" class="block text-sm font-medium text-gray-700 mb-1">
+            Inflation Rate (%)
+          </label>
+          <input type="number" id="inflationRate" name="inflationRate" value="3" min="0" max="20" step="0.1"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+        </div>
+
+        <!-- Compounding Frequency -->
+        <div>
+          <label for="compoundFrequency" class="block text-sm font-medium text-gray-700 mb-1">
+            Compounding Frequency
+          </label>
+          <select id="compoundFrequency" name="compoundFrequency"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            <option value="monthly" selected>Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="annually">Annually</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit"
+        class="w-full md:w-auto px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
+        📊 Calculate
+      </button>
+    </form>
+  </section>
+
+  <!-- Results Section (hidden until calculation) -->
+  <section id="results" class="hidden">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+        <p class="text-sm text-gray-500 mb-1">Final Balance</p>
+        <p id="resultBalance" class="text-3xl font-bold text-emerald-600">$0</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+        <p class="text-sm text-gray-500 mb-1">Total Contributions</p>
+        <p id="resultContributions" class="text-3xl font-bold text-blue-600">$0</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+        <p class="text-sm text-gray-500 mb-1">Interest Earned</p>
+        <p id="resultInterest" class="text-3xl font-bold text-amber-600">$0</p>
+      </div>
+    </div>
+
+    <!-- Inflation Adjusted -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-center">
+      <p class="text-sm text-amber-700">In real terms (adjusted for <span id="inflationDisplay">3</span>% inflation):</p>
+      <p id="resultRealBalance" class="text-2xl font-bold text-amber-800">$0</p>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="text-lg font-semibold mb-4">Growth Over Time</h2>
+      <canvas id="growthChart" width="800" height="400"></canvas>
+    </div>
+
+    <!-- Ad Banner Mid -->
+    <div class="bg-gray-100 rounded-lg p-4 mb-8 text-center text-gray-400 text-sm border border-dashed border-gray-300">
+      Advertisement
+    </div>
+
+    <!-- Year-by-Year Table -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8 overflow-x-auto">
+      <h2 class="text-lg font-semibold mb-4">Year-by-Year Breakdown</h2>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-200 text-left">
+            <th class="py-2 px-3">Year</th>
+            <th class="py-2 px-3">Balance</th>
+            <th class="py-2 px-3">Contributions</th>
+            <th class="py-2 px-3">Interest</th>
+            <th class="py-2 px-3">Inflation-Adj.</th>
+          </tr>
+        </thead>
+        <tbody id="breakdownTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Ad Banner Bottom -->
+  <div class="bg-gray-100 rounded-lg p-4 mb-8 text-center text-gray-400 text-sm border border-dashed border-gray-300">
+    Advertisement
+  </div>
+
+</BaseLayout>
+
+<script>
+import { calculateCompound, formatCurrency } from '../lib/calculator';
+import Chart from 'chart.js/auto';
+
+let chartInstance: Chart | null = null;
+
+function formatUSD(n: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+}
+
+function runCalculation() {
+  const principal = parseFloat((document.getElementById('principal') as HTMLInputElement).value) || 0;
+  const monthlyContribution = parseFloat((document.getElementById('monthlyContribution') as HTMLInputElement).value) || 0;
+  const annualRate = parseFloat((document.getElementById('annualRate') as HTMLInputElement).value) || 0;
+  const years = parseInt((document.getElementById('years') as HTMLInputElement).value) || 1;
+  const inflationRate = parseFloat((document.getElementById('inflationRate') as HTMLInputElement).value) || 0;
+  const compoundFrequency = (document.getElementById('compoundFrequency') as HTMLSelectElement).value as 'monthly' | 'quarterly' | 'annually';
+
+  const result = calculateCompound({ principal, monthlyContribution, annualRate, years, inflationRate, compoundFrequency });
+
+  // Show results
+  document.getElementById('results')!.classList.remove('hidden');
+  document.getElementById('resultBalance')!.textContent = formatUSD(result.finalBalance);
+  document.getElementById('resultContributions')!.textContent = formatUSD(result.totalContributions);
+  document.getElementById('resultInterest')!.textContent = formatUSD(result.totalInterest);
+  document.getElementById('resultRealBalance')!.textContent = formatUSD(result.inflationAdjustedBalance);
+  document.getElementById('inflationDisplay')!.textContent = inflationRate.toString();
+
+  // Table
+  const tbody = document.getElementById('breakdownTable')!;
+  tbody.innerHTML = result.yearlyBreakdown.map(row => `
+    <tr class="border-b border-gray-100 hover:bg-gray-50">
+      <td class="py-2 px-3">${row.year}</td>
+      <td class="py-2 px-3">${formatUSD(row.balance)}</td>
+      <td class="py-2 px-3">${formatUSD(row.totalContributions)}</td>
+      <td class="py-2 px-3 text-amber-600">${formatUSD(row.totalInterest)}</td>
+      <td class="py-2 px-3 text-amber-800">${formatUSD(row.inflationAdjustedBalance)}</td>
+    </tr>
+  `).join('');
+
+  // Chart
+  const ctx = document.getElementById('growthChart') as HTMLCanvasElement;
+  if (chartInstance) chartInstance.destroy();
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: result.yearlyBreakdown.map(r => `Year ${r.year}`),
+      datasets: [
+        {
+          label: 'Total Balance',
+          data: result.yearlyBreakdown.map(r => r.balance),
+          borderColor: '#059669',
+          backgroundColor: 'rgba(5, 150, 105, 0.1)',
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: 'Contributions',
+          data: result.yearlyBreakdown.map(r => r.totalContributions),
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: 'Inflation-Adjusted',
+          data: result.yearlyBreakdown.map(r => r.inflationAdjustedBalance),
+          borderColor: '#d97706',
+          borderDash: [5, 5],
+          tension: 0.3,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: { mode: 'index', intersect: false },
+        legend: { position: 'bottom' },
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: (v) => formatUSD(v as number) } },
+      },
+    },
+  });
+}
+
+document.getElementById('calcForm')!.addEventListener('submit', (e) => {
+  e.preventDefault();
+  runCalculation();
+});
+
+// Auto-calculate on page load
+runCalculation();
+</script>
