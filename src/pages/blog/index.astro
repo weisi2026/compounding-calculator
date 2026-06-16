@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = await Astro.glob('./*.md');
+
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime()
+);
+---
+
+<BaseLayout title="Blog — Compounding" description="Learn about compound interest, investing strategies, and how to grow your wealth over time.">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-2">Blog</h1>
+    <p class="text-gray-600 mb-8">Practical guides on compound interest, investing, and growing your wealth.</p>
+
+    <div class="space-y-6">
+      {sortedPosts.map((post) => (
+        <a href={post.url} class="block p-6 bg-white rounded-xl border border-gray-200 hover:border-emerald-400 hover:shadow-md transition-all">
+          <h2 class="text-xl font-semibold text-gray-900 hover:text-emerald-600 mb-2">{post.frontmatter.title}</h2>
+          <p class="text-gray-600 text-sm mb-3">{post.frontmatter.description}</p>
+          <time class="text-gray-400 text-xs">
+            {new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
