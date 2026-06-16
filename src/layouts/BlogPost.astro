@@ -1,14 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-interface Props {
-  title: string;
-  description?: string;
-  pubDate: Date;
-}
-
-const { title, description, pubDate } = Astro.props;
-const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
+const { frontmatter } = Astro.props;
+const { title, description, pubDate } = frontmatter;
+const dateObj = pubDate ? new Date(pubDate) : new Date();
+const formattedDate = dateObj.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -20,7 +16,7 @@ const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
     <header class="mb-8">
       <a href="/blog" class="text-emerald-600 hover:underline text-sm">← Back to Blog</a>
       <h1 class="text-3xl font-bold mt-4 mb-2">{title}</h1>
-      <time datetime={pubDate.toISOString()} class="text-gray-500 text-sm">{formattedDate}</time>
+      <time datetime={dateObj.toISOString()} class="text-gray-500 text-sm">{formattedDate}</time>
     </header>
 
     <div class="prose prose-lg prose-emerald max-w-none">
