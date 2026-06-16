@@ -35,6 +35,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GV2HSDXGQL"></script>
+    <script set:html={`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GV2HSDXGQL');
+    `} />
     <!-- AdSense placeholder (replace with real ID after approval) -->
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX" crossorigin="anonymous"></script> -->
   </head>
