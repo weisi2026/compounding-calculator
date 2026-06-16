@@ -2,7 +2,7 @@
 layout: ../../layouts/BlogPost.astro
 title: "How Compound Interest Works: The $1,000 That Became $76,123"
 description: "See exactly how compound interest turns small investments into massive wealth. A practical guide with real numbers and a free calculator."
-pubDate: 2025-06-16
+pubDate: 2026-06-16
 ---
 
 ## The Most Powerful Force in Finance
