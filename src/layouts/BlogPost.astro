@@ -9,6 +9,8 @@ const formattedDate = dateObj.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+const pageUrl = Astro.url.href;
+const shareText = `${title} — Free Compound Interest Calculator`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -21,6 +23,38 @@ const formattedDate = dateObj.toLocaleDateString('en-US', {
 
     <div class="prose prose-lg prose-emerald max-w-none">
       <slot />
+    </div>
+
+    <!-- Social Share Buttons -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <p class="text-sm font-semibold text-gray-600 mb-3">Share this article</p>
+      <div class="flex gap-3 flex-wrap">
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`}
+           target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-4 py-2 bg-black text-white text-sm rounded-lg hover:bg-gray-800 transition-colors">
+          𝕏 Twitter
+        </a>
+        <a href={`https://www.reddit.com/submit?url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(shareText)}`}
+           target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors">
+          🔥 Reddit
+        </a>
+        <a href={`https://www.linkedin.com/sharing/shareOffsite/?url=${encodeURIComponent(pageUrl)}`}
+           target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 text-white text-sm rounded-lg hover:bg-blue-800 transition-colors">
+          💼 LinkedIn
+        </a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
+           target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+          📘 Facebook
+        </a>
+        <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + pageUrl)}`}
+           target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-4 py-2 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
+          💬 WhatsApp
+        </a>
+      </div>
     </div>
 
     <footer class="mt-12 p-6 bg-emerald-50 rounded-xl border border-emerald-200">
